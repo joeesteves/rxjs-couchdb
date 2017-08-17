@@ -1,0 +1,51 @@
+{
+  "name": "rxjs-couchdb",
+  "version": "1.0.0",
+  "description": "Simple rsxj implementation for couchDB",
+  "main": "dist/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "babel src -d dist",
+    "dev": "babel src --watch -d dist",
+    "test:watch": "npm test -- --watch",
+    "prepublish": "npm run build",
+    "release": "np"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ponyesteves/rxjs-couchdb.git"
+  },
+  "keywords": [
+    "rxjs",
+    "couch",
+    "noSQL",
+    "simple"
+  ],
+  "author": "@ponyesteves",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ponyesteves/rxjs-couchdb/issues"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "stage-3"
+    ]
+  },
+  "homepage": "https://github.com/ponyesteves/rxjs-couchdb#readme",
+  "devDependencies": {
+    "@types/jest": "^20.0.7",
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "jest": "^20.0.4",
+    "np": "^2.16.0"
+  },
+  "dependencies": {
+    "request": "^2.81.0",
+    "rxjs": "^5.4.3"
+  }
+}
