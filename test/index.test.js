@@ -5,6 +5,9 @@ const DB_HEADERS = {
   'User-Agent': 'request'
 }
 const db = init('http://db.ceibo.co/rxjs_couchdb_test', DB_HEADERS)
+/**
+ * Have to add the promise because if I tested inside subscribe and test failed rxjs throwed uncatchable errores
+ */
 // body.docs
 describe("FIND", () => {
   it('works!', async () => {
