@@ -1,9 +1,12 @@
 import { requestOptionsGenerator, createObservable } from './helpers'
 
 export const init = (dbURI, headers) => {
-  return [find, get, put, bulk].reduce((p, c) => {
-    return { ...p, [c.name]: c(requestOptionsGenerator(dbURI, headers)) }
-  }, {})
+  return {
+    find: find(requestOptionsGenerator(dbURI, headers)),
+    get: get(requestOptionsGenerator(dbURI, headers)),
+    put: put(requestOptionsGenerator(dbURI, headers)),
+    bulk: bulk(requestOptionsGenerator(dbURI, headers))
+  }
 }
 
 
