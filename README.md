@@ -14,7 +14,7 @@ const DB_HEADERS = {
  export const db = init('https://db.example.com/mydb', DB_HEADERS)
 
 ```
-### other file
+### in other file
 ```js
 import {db} from './db'
 
@@ -23,9 +23,36 @@ db
 .subscribe((user) => {
   console.log(user.name)
 })
+
+// find function wraps the object you pass inside { selector : ... } to avoid selector bilerplate
+
+db
+.find({user: 'ponesteves'})
+.subscribe((user) => {
+  console.log(user.email)
+})
+
+// if you don't pass any arguments to find it will act like db.all()
+
+db
+.find()
+.subscribe((user) => {
+  console.log(user.email)
+})
+
+🡩🡩🡩 equals 🡫🡫🡫
+
+db
+.all()
+.subscribe((user) => {
+  console.log(user.email)
+})
+
+
 ```
 
-Support for find, put and bulk also.
+
+Support for all, find, put and bulk also.
 For bulk post you must pass an array of objects
 
 
