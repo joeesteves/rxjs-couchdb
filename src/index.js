@@ -12,7 +12,7 @@ export const init = (dbURI, headers) => {
 
 
 const find = (requestOptions) => {
-  return (selector) => createObservable(requestOptions('POST', '_find', { selector }))
+  return (selector = {}) => createObservable(requestOptions('POST', '_find', { selector }))
 }
 
 const get = (requestOptions) => {
