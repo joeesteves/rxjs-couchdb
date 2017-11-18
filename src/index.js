@@ -2,7 +2,7 @@ import { requestOptionsGenerator, createObservable } from './helpers'
 
 export const init = (dbURI, headers) => {
   return {
-    all: () => find(requestOptionsGenerator(dbURI, headers)({})),
+    all: find(requestOptionsGenerator(dbURI, headers)).bind(null, {}),
     find: find(requestOptionsGenerator(dbURI, headers)),
     get: get(requestOptionsGenerator(dbURI, headers)),
     put: put(requestOptionsGenerator(dbURI, headers)),
