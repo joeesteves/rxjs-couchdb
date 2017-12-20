@@ -6,6 +6,7 @@ export const init = (dbURI, headers) => {
     find: find(requestOptionsGenerator(dbURI, headers)),
     get: get(requestOptionsGenerator(dbURI, headers)),
     put: put(requestOptionsGenerator(dbURI, headers)),
+    post: post(requestOptionsGenerator(dbURI, headers)),
     bulk: bulk(requestOptionsGenerator(dbURI, headers))
   }
 }
@@ -20,6 +21,10 @@ const get = (requestOptions) => {
 
 const put = (requestOptions) => {
   return (doc) => createObservable(requestOptions('PUT', doc._id, doc))
+}
+
+const post = (requestOptions) => {
+  return (doc) => createObservable(requestOptions('POST', '', doc))
 }
 
 const bulk = (requestOptions) => {

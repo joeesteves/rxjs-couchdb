@@ -4,7 +4,7 @@ const DB_HEADERS = {
   'Authorization': 'Basic am9zZTphbGZhMTM0Ng==',
   'User-Agent': 'request'
 }
-const db = init('http://db.ceibo.co/rxjs_couchdb_test', DB_HEADERS)
+const db = init('https://db.ceibo.co/rxjs_couchdb_test', DB_HEADERS)
 /**
  * Have to add the promise because if I tested inside subscribe and test failed rxjs throwed uncatchable errores
  */
@@ -49,7 +49,7 @@ describe("PUT", () => {
 
 
 describe("BULK", () => {
-  it('works!', async () => {
+  it('works for bulk!', async () => {
     const body = await new Promise((resolve, reject) => {
       db.find({type: 'test'})
         .flatMap(({ response, body }) => db.bulk(body.docs))
