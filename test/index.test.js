@@ -47,6 +47,33 @@ describe("PUT", () => {
   })
 })
 
+describe("POST", () => {
+  it('works!', async () => {
+    const body = await new Promise((resolve, reject) => {
+      db.post({_id: 'postdoc', name: 'example'})
+        .subscribe(({ response, body }) => {
+          resolve(body)
+        })
+    })
+    expect(body.id).toEqual('postdoc')
+  })
+})
+
+describe("DELETE", () => {
+  it('works!', async () => {
+    const body = await new Promise((resolve, reject) => {
+      db.get('postdoc')
+        .flatMap(({ response, body }) =>{
+          return db.delete(body)
+        })
+        .subscribe(({ response, body }) => {
+          resolve(body)
+        })
+    })
+    expect(body.id).toEqual('postdoc')
+  })
+})
+
 
 describe("BULK", () => {
   it('works for bulk!', async () => {
