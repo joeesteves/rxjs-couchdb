@@ -15,7 +15,7 @@ export const init = (dbURI, headers) => {
 }
 
 const find = (requestOptions) => {
-  return (selector = {}) => createObservable(requestOptions('POST', '_find', { selector }))
+  return (selector = {}, opts = {}) => createObservable(requestOptions('POST', '_find', { selector, ...opts }))
 }
 
 const get = (requestOptions) => {
