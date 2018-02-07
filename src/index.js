@@ -1,4 +1,4 @@
-import { requestOptionsGenerator, createObservable } from './helpers'
+import { requestOptionsGenerator, createObservable, createChangeObservable } from './helpers'
 
 export const init = (dbURI, headers) => {
   return {
@@ -8,7 +8,8 @@ export const init = (dbURI, headers) => {
     put: put(requestOptionsGenerator(dbURI, headers)),
     post: post(requestOptionsGenerator(dbURI, headers)),
     delete: drop(requestOptionsGenerator(dbURI, headers)),
-    bulk: bulk(requestOptionsGenerator(dbURI, headers))
+    bulk: bulk(requestOptionsGenerator(dbURI, headers)),
+    change: change(dbURI, headers)
 
   }
 }
@@ -19,6 +20,10 @@ const find = (requestOptions) => {
 
 const get = (requestOptions) => {
   return (id) => createObservable(requestOptions('GET', id))
+}
+
+const change = (dbURI, headers) => {
+  return () => createChangeObservable(dbURI, headers)
 }
 
 const put = (requestOptions) => {
