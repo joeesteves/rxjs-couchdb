@@ -9,8 +9,8 @@ export const init = (dbURI, headers) => {
     post: post(requestOptionsGenerator(dbURI, headers)),
     delete: drop(requestOptionsGenerator(dbURI, headers)),
     bulk: bulk(requestOptionsGenerator(dbURI, headers)),
-    change: change(dbURI, headers)
-
+    changes: changes(dbURI, headers),
+    createIndex: createIndex(requestOptionsGenerator(dbURI, headers)),
   }
 }
 
@@ -22,10 +22,13 @@ const get = (requestOptions) => {
   return (id) => createObservable(requestOptions('GET', id))
 }
 
-const change = (dbURI, headers) => {
+const changes = (dbURI, headers) => {
   return () => createChangeObservable(dbURI, headers)
 }
 
+const createIndex = (requestOptions) => {
+  return (index = {}) => createObservable(requestOptions('POST', '_index', { index }))
+}
 const put = (requestOptions) => {
   return (doc) => createObservable(requestOptions('PUT', doc._id, doc))
 }

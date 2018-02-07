@@ -20,30 +20,21 @@ export const createObservable = (options, cb) => {
 
 const changeRequestOptionGenerator = (dbURI, headers, last_seq) => {
   if(last_seq)
-    return requestOptionsGenerator(dbURI, headers)('GET', `_changes?feed=longpoll&since=${last_seq}`)
+    return requestOptionsGenerator(dbURI, headers)('GET', `_changes?feed=longpoll&since=${last_seq}&include_docs=true`)
   return requestOptionsGenerator(dbURI, headers)('GET', '_changes?descending=true&limit=1')
 }
 
 export const createChangeObservable = (dbURI, headers) => {
-  return Rx.Observable.create(obs =>
-      request(changeRequestOptionGenerator(dbURI, headers), (error, response, body) => {
-        error ? obs.error(error) : obs.next(body.last_seq)
-      })
-    )
-    .flatMap(last_seq => {
-      return Rx.Observable
-        .create(obs => {
-          request(changeRequestOptionGenerator(dbURI, headers, last_seq), (error, response, body) => {
-            error ? obs.error(error) : obs.next(body)
-          })
-        })
-    })
-    .expand(body => {
-      return Rx.Observable
-        .create(obs => {
-          request(changeRequestOptionGenerator(dbURI, headers, body.last_seq), (error, response, body) => {
-            error ? obs.error(error) : obs.next(body)
-          })
-        })
-    })
+  return Rx.Observable.create(obs => requestChanges(changeRequestOptionGenerator(dbURI, headers), obs))
+
+    .expand(body => Rx.Observable.create(obs => requestChanges(changeRequestOptionGenerator(dbURI, headers, body.last_seq), obs, body)))
+
+    .filter(body => body.pending >= 0 )
+    .flatMap(body => body.results)
+  }
+
+const requestChanges = (options, obs, body, cb) => {
+  request(options, cb || ((error, response, req_body) => {
+    error ? obs.error(error) : obs.next(req_body.last_seq ? req_body : body)
+  }))
 }
