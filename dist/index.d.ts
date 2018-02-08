@@ -12,5 +12,10 @@ interface DB_HEADERS {
   'Authorization': String
   'User-Agent': String
 }
+interface interceptors {
+  start?: () => any
+  success?: () => any
+  error?: () => any
+}
 
-export const init: (DBURI: String, headers: DB_HEADERS) => IInit
+export const init: (DBURI: String, headers: DB_HEADERS, interceptors?: interceptors) => IInit

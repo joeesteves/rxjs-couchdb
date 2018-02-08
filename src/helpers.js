@@ -9,13 +9,15 @@ export const requestOptionsGenerator = (dbURI, headers) => {
   }
 }
 
-export const createObservable = (options, cb) => {
+export const createObservable = (options, interceptor = {}, cb) => {
   return Rx.Observable.create(obs => {
+    if(interceptor.start) interceptor.start()
     request(options, cb || ((error, response, body) => {
       error ? obs.error(error) : obs.next({ response, body })
       obs.complete()
     }))
   })
+  .do(interceptor.success, interceptor.error)
 }
 
 const changeRequestOptionGenerator = (dbURI, headers, last_seq) => {
